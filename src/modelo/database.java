@@ -198,4 +198,86 @@ public class database {
             return false;
         }
     }
+    
+    public producto getProd(int id_prod) {
+        producto aux = null;
+        try {
+            String sql = "SELECT * FROM PRODUCTO WHERE PRODUCTO.ID_PRODUCTO = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id_prod);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                aux = new producto();
+                aux.setId_producto(rs.getInt(1));
+                aux.setNombre_producto(rs.getString(2));
+                aux.setCantidad_producto(rs.getInt(3));
+                return aux;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar producto" + e);
+        }
+        return aux;
+    }
+    
+    public ArrayList<producto> getAllProds() {
+        ArrayList<producto> all = new ArrayList();
+        String sql = "SELECT * FROM PRODUCTO";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                producto aux = new producto();
+                aux.setId_producto(rs.getInt(1));
+                aux.setNombre_producto(rs.getString(2));
+                aux.setCantidad_producto(rs.getInt(3));
+                all.add(aux);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al consultar todos lso productos " + e);
+        }
+        return all;
+    }
+    public boolean insertProduct(producto prod) {
+        String sql = "INSERT INTO PRODUCTO VALUES (?,?,?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, prod.getId_producto());
+            ps.setString(2, prod.getNombre_producto());
+            ps.setInt(3, prod.getCantidad_producto());
+            int result = ps.executeUpdate();
+            return result == 1;
+        } catch (Exception e) {
+            System.out.println("Error al insertar producto " + e);
+            return false;
+        }
+    }
+    
+     public boolean updateProduct(producto prod) {
+        String sql = "UPDATE PRODUCTO SET PRODUCTO.NOMBRE_PRODUCTO = ?, PRODUCTO.CANTIDAD_PRODUCTO = ?"
+                + " WHERE PRODUCTO.ID_PRODUCTO = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, prod.getNombre_producto());
+            ps.setInt(2, prod.getCantidad_producto());
+            ps.setInt(3, prod.getId_producto());
+            int result = ps.executeUpdate();
+            return result == 1;
+        } catch (Exception e) {
+            System.out.println("Error al modificar producto " + e);
+            return false;
+        }
+    }
+
+    public boolean deleteProduct(int id_product) {
+        String sql = "DELETE PRODUCTO WHERE PRODUCTO.ID_PRODUCTO = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id_product);
+            int result = ps.executeUpdate();
+            return result == 1;
+        } catch (Exception e) {
+            System.out.println("Error al modificar producto " + e);
+            return false;
+        }
+    }
 }

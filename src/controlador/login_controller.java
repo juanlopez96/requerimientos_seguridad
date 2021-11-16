@@ -60,7 +60,10 @@ public class login_controller implements ActionListener {
                     admin.setVisible(true);
                     this.vista.dispose();
                 }else if(user.getNombre_rol().equals("usuario general")){
-                    
+                    generalUser gu = new generalUser();
+                    generalUser_controller guc = new generalUser_controller(gu, db, LOGGER, user);
+                    gu.setVisible(true);
+                    this.vista.dispose();
                     //this.vista.dispose();
                 }else if(user.getNombre_rol().equals("usuario basico")){
                     
