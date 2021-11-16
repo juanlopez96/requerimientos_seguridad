@@ -55,8 +55,10 @@ public class login_controller implements ActionListener {
                 LOGGER.log(Level.INFO, "Usuario Loggeado: {0}", user.getCorreo_persona());
                 LOGGER.log(Level.INFO, "Tipo de usuario: {0}", user.getNombre_rol());
                 if (user.getNombre_rol().equals("admin")) {
-                    
-                    //this.vista.dispose();
+                    administrator admin = new administrator();
+                    administrator_controller admin_controller = new administrator_controller(admin, LOGGER, db, user);
+                    admin.setVisible(true);
+                    this.vista.dispose();
                 }else if(user.getNombre_rol().equals("usuario general")){
                     
                     //this.vista.dispose();

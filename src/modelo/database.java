@@ -15,6 +15,7 @@ import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -126,4 +127,75 @@ public class database {
         return false;
     }
 
+    public ArrayList<persona> getAllPerson() {
+        ArrayList<persona> all = new ArrayList();
+        String sql = "SELECT PERSONA.ID_PERSONA, PERSONA.NOMBRE_PERSONA, PERSONA.CORREO_PERSONA, PERSONA.ID_ROL FROM PERSONA";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                persona aux = new persona();
+                aux.setId_persona(rs.getInt(1));
+                aux.setNombre_persona(rs.getString(2));
+                aux.setCorreo_persona(rs.getString(3));
+                aux.setNombre_rol(rs.getString(4));
+                all.add(aux);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al validar usuarios {0}", e);
+        }
+        return all;
+    }
+
+    public ArrayList<rol> getRol() {
+        ArrayList<rol> all = new ArrayList();
+        try {
+            String sql = "SELECT * FROM ROL";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                rol aux = new rol();
+                aux.setId(rs.getInt(1));
+                aux.setNombre(rs.getString(2));
+                all.add(aux);
+            }
+            return all;
+        } catch (Exception e) {
+            System.out.println("Error al consutlar roles " + e);
+        }
+        return all;
+    }
+    
+    public persona searchUser(int id) {
+        persona p = null;
+        String sql = "SELECT PERSONA.NOMBRE_PERSONA, PERSONA.ID_ROL FROM PERSONA WHERE PERSONA.ID_PERSONA = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                p = new persona();
+                p.setNombre_persona(rs.getString(1));
+                p.setNombre_rol(rs.getString(2));
+                return p;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al consultar usuario" + e);
+        }
+        return p;
+    }
+    
+    public boolean updateRol(int id_persona, int id_rol) {
+        String sql = "UPDATE PERSONA SET PERSONA.ID_ROL = ? WHERE PERSONA.ID_PERSONA = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id_rol);
+            ps.setInt(2, id_persona);
+            int result = ps.executeUpdate();
+            return result == 1;
+        } catch (Exception e) {
+            System.out.println("Error al actulizar rol " + e);
+            return false;
+        }
+    }
 }
