@@ -64,10 +64,12 @@ public class login_controller implements ActionListener {
                     generalUser_controller guc = new generalUser_controller(gu, db, LOGGER, user);
                     gu.setVisible(true);
                     this.vista.dispose();
-                    //this.vista.dispose();
-                }else if(user.getNombre_rol().equals("usuario basico")){
                     
-                    //this.vista.dispose();
+                }else if(user.getNombre_rol().equals("usuario basico")){
+                    basicUser bu = new basicUser();
+                    basicUser_controller buc = new basicUser_controller(bu,LOGGER,db,user);
+                    bu.setVisible(true);
+                    this.vista.dispose();
                 }
             } else {
                 LOGGER.log(Level.WARNING, "Usuario y/o contraseña incorrecto(s): \n"
