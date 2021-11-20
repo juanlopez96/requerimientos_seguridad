@@ -74,7 +74,11 @@ public class generalUser_controller implements ActionListener {
         } else if (e.getSource() == this.vista.jButton7) {
             doAction(this.vista.jButton7.getText());
         } else if(e.getSource() == this.vista.jButton8){
-            //ingreso a cambio de contraseña
+            LOGGER.log(Level.INFO, "Ingreso a cambio de contraseña");
+            change_password change = new change_password();
+            changepassword_controller changepass_controller = new changepassword_controller(change, LOGGER, db, person);
+            change.setVisible(true);
+            this.vista.dispose();
         }
     }
 

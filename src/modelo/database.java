@@ -280,4 +280,38 @@ public class database {
             return false;
         }
     }
+    
+    public boolean updatePassword(int id_persona, String newpassword) {
+        try {
+            String sql = "UPDATE PERSONA SET PERSONA.PASSWORD_PERSONA = ? WHERE PERSONA.ID_PERSONA = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, newpassword);
+            ps.setInt(2, id_persona);
+            int res = ps.executeUpdate();
+            return (res == 1);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al intentar cambiar la conseña: {0}", e);
+            return false;
+        }
+    }
+    
+    public boolean updateCode(int id_persona, String code) {
+        try {
+            System.out.println(id_persona);
+            String sql = "UPDATE two_step_verification SET CODIGO = ? WHERE ID_PERSONA = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, code);
+            ps.setString(2, String.valueOf(id_persona));
+            int result = ps.executeUpdate();
+            System.out.println(result);
+            if (result == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al enviar código");
+            return false;
+        }
+        return false;
+    }
+
 }

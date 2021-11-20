@@ -53,7 +53,11 @@ public class administrator_controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.vista.jButton1) {
-            //Ingresar cambio de contraseña
+            LOGGER.log(Level.INFO, "Ingreso a cambio de contraseña");
+            change_password change = new change_password();
+            changepassword_controller changepass_controller = new changepassword_controller(change, LOGGER, db, person);
+            change.setVisible(true);
+            this.vista.dispose();
         } else if (e.getSource() == this.vista.jButton2) {
             LOGGER.log(Level.INFO, "Cerrando sesion");
             person = null;

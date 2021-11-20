@@ -108,7 +108,11 @@ public class basicUser_controller implements ActionListener {
                 JOptionPane.showMessageDialog(vista, "No se encontraron productos registrados");
             }
         } else if(e.getSource() == this.vista.jButton4){
-            /*Ingreso a cambio de contraseña*/
+            LOGGER.log(Level.INFO, "Ingreso a cambio de contraseña");
+            change_password change = new change_password();
+            changepassword_controller changepass_controller = new changepassword_controller(change, LOGGER, db, person);
+            change.setVisible(true);
+            this.vista.dispose();
         }
     }
 }
