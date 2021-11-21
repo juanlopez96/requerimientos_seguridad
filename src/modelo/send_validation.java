@@ -51,4 +51,10 @@ public class send_validation {
         }
         return false;
     }
+    public boolean sendCode(database db, persona person, String code, String text, String subject) {
+        if (db.updateCode(person.getId_persona(), code)) {
+            return sendMessage(db, person, text, subject);
+        }
+        return false;
+    }
 }

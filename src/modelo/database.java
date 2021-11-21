@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -313,5 +314,52 @@ public class database {
         }
         return false;
     }
-
+    public String validateCode(int id_persona) {
+        try {
+            System.out.println(id_persona);
+            String sql = "SELECT CODIGO FROM two_step_verification WHERE ID_PERSONA = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, String.valueOf(id_persona));
+            ResultSet result = ps.executeQuery();
+            while (result.next()) {
+                return result.getString(1);
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error al enviar código");
+            return null;
+        }
+        return null;
+    }
+    public boolean validateNewUser(int id_persona, String email) {
+        String sql = "SELECT PERSONA.NOMBRE_PERSONA FROM PERSONA "
+                + "WHERE PERSONA.ID_PERSONA = ? OR PERSONA.CORREO_PERSONA = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id_persona);
+            ps.setString(2, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                JOptionPane.showMessageDialog(null, "El ID o correo ya se encuentra registrado");
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+    public boolean insertUser(persona p, String password) {
+        String sql = "INSERT INTO PERSONA VALUES (?,?,?,?,?)";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, p.getId_persona());
+            ps.setInt(2, Integer.parseInt(p.getNombre_rol()));
+            ps.setString(3, p.getNombre_persona());
+            ps.setString(4, p.getCorreo_persona());
+            ps.setString(5, password);
+            int result = ps.executeUpdate();
+            return result == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

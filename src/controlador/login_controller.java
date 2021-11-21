@@ -76,11 +76,15 @@ public class login_controller implements ActionListener {
                         + "Intento de acceso: {0}", this.vista.jTextField1.getText());
             }
         } else if(e.getSource() == this.vista.jButton2){
-            
+            register rg = new register();
+            register_controller rgc = new register_controller(rg, db, LOGGER);
+            rg.setVisible(true);
             LOGGER.log(Level.INFO, "Ingreso a registrar usuario");
             this.vista.dispose();
         }else if (e.getSource() == this.vista.jButton3) {
-            
+            forgot_password fp = new forgot_password();
+            forgot_password_controller fpcontroller = new forgot_password_controller(fp, LOGGER, db);
+            fp.setVisible(true);
             LOGGER.log(Level.INFO, "Ingreso a reestablecimiento de contraseña");
             this.vista.dispose();
         }

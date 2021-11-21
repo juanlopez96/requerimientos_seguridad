@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.validator.routines.EmailValidator;
 
 
 /**
@@ -286,5 +287,18 @@ public class encrypt {
         } else {
             return "Muy Fuerte";
         }
+    }
+    public static boolean validateEmail(String email) {
+        try {
+            EmailValidator em = EmailValidator.getInstance();
+            return em.isValid(email);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    public static String generateCode() {
+        int number = (int) (Math.random() * 899999) + 100000;
+        System.out.println(number);
+        return String.valueOf(number);
     }
 }

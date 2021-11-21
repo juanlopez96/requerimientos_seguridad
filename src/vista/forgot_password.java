@@ -58,7 +58,7 @@ public class forgot_password extends javax.swing.JFrame {
         jPanel2.add(newpass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 102, -1));
         jPanel2.add(newpass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 102, -1));
 
-        changepass.setText("Cambair contraseña");
+        changepass.setText("Cambiar contraseña");
         jPanel2.add(changepass, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, -1, -1));
 
         jToggleButton1.setText("jToggleButton1");
